@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.dto.AuthDTO;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 import java.time.LocalDate;
@@ -27,27 +28,29 @@ public class Auth {
     private Long pk; // pk
 
     //    @Column(name = "id", nullable = false, unique = true)
-    @Column(name = "id" ,nullable = false, unique = true)
+    @Column(name = "id")
     private String id; // id
 
     //    @Column(name = "role_name", nullable = false, unique = true)
-    @Column(name = "password",nullable = false)
+    @Column(name = "password")
     private String password; // 비밀번호
 
     //    @Column(name = "active_yn", nullable = false)
-    @Column(name = "name",nullable = false)
+    @Column(name = "name")
     private String name; // 이름
 
-    @Column(name = "birthday",nullable = false)
+    @CreationTimestamp
+    @Column(name = "birthday")
     private LocalDate birthday;  // 생년월일
 
-    @Column(name = "date",nullable = false)
+    @CreationTimestamp
+    @Column(name = "date")
     private LocalDateTime date;  // 생성날짜
 
-    @Column(name = "phoneNum",nullable = false)
+    @Column(name = "phoneNum")
     private  String phoneNum; // 핸드폰 번호
 
-    @Transient
+//    @Transient
     public AuthDTO responses(){
       return new AuthDTO(
                 getPk(),
