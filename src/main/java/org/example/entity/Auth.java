@@ -1,7 +1,10 @@
 package org.example.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +23,7 @@ import java.time.LocalDateTime;
 public class Auth {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pk",nullable = false,unique = true)
     private Long pk; // pk
 
     //    @Column(name = "id", nullable = false, unique = true)
