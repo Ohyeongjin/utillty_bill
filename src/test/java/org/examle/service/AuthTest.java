@@ -1,7 +1,8 @@
 package org.examle.service;
 
 import org.example.Main;
-import org.example.service.TestService;
+import org.example.dto.AuthDTO;
+import org.example.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,18 +17,26 @@ import java.time.LocalDateTime;
 public class AuthTest {
 
     @Autowired
-    TestService testService;
+    AuthService authService;
 
     @Test
      void setAuthTest() {
-        Long pk = 2L;
-        String id = "admin2";
-        String password = "1234ewer";
-        String name = "관리자2";
+        Long pk = 3L;
+        String id = "admin3";
+        String password = "1234qwer";
+        String name = "관리자3";
         LocalDate birthday = LocalDate.now();
         LocalDateTime date = LocalDateTime.now();
-        String phoneNum = "010-1111-1111";
-        testService.set(pk,id,password,name,birthday,date,phoneNum);
+        String phoneNum = "010-1111-2222";
+
+        authService.createUser(new AuthDTO( pk,
+                id,
+                password,
+                name,
+                birthday,
+                date,
+                phoneNum
+        ));
     }
 
 }

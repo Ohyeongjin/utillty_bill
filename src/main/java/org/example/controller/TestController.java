@@ -3,39 +3,65 @@ package org.example.controller;
 
 
 import org.example.dto.AuthDTO;
-import org.example.service.TestService;
+import org.example.entity.Auth;
+import org.example.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 public class TestController {
 
     @Autowired
-    private TestService testService;
+    private AuthService authService;
 
     // 회원가입
-    @PostMapping("/api/signup")
-    public ResponseEntity<String> registerAuth(@RequestBody AuthDTO authDTO){
-        testService.set(
-                authDTO.pk(),
-                authDTO.id(),
-                authDTO.password(),
-                authDTO.name(),
-                authDTO.birthday() == null? LocalDate.now():authDTO.birthday(),
-                authDTO.date() == null? LocalDateTime.now():authDTO.date(),
-                authDTO.phoneNum()
-        );
-        return  ResponseEntity.ok("회원가입 성공 :" +authDTO.name());
+    @PostMapping("/signup")
+    public ResponseEntity<Auth> registerAuth(@RequestBody AuthDTO authDTO) {
+        Auth newUser = authService.createUser(authDTO);
+        return ResponseEntity.ok(newUser);
     }
-  /*  @GetMapping("/api/users/{id}")
-    public String getUserById(@PathVariable Long id) {
-        // 예시로 사용자 정보를 반환
-        return "User ID: " + id;
+
+    // user info
+    @GetMapping("/users/{pk}")
+    public ResponseEntity<AuthDTO> getUserByPk(@PathVariable Long pk) {
+
+        Optional<Auth> user = authService.getUserByPk(pk);
+
+        return user.map(u -> {
+            AuthDTO authDTO = new AuthDTO(u.getPk(), u.getId(), u.getPassword(), u.getName(), u.getBirthday(), u.getDate(), u.getPhoneNum());
+            return ResponseEntity.ok(authDTO);
+        }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+
+
+    }
+
+    // user update
+    @PutMapping("/users/{pk}")
+    public ResponseEntity<Auth> registerAuth(@PathVariable Long pk,@RequestBody Auth auth) {
+       Optional<Auth> updateUser =  authService.updateUser(pk,auth);
+       return  updateUser.map(ResponseEntity::ok)
+               .orElse(ResponseEntity.notFound().build());
+
+    }
+
+    // user delete
+    @DeleteMapping("/users/{pk}")
+    public ResponseEntity<Auth> deleteMember(@PathVariable Long pk) {
+        authService.deleteUser(pk);
+        return ResponseEntity.noContent().build();
+    }
+
+    //
+/*    @PostMapping("/login")
+    private ResponseEntity<String> doLogin(@RequestParam String id, @RequestParam String password){
+         Auth user = loginService.getLoging(id,password);
+        return ResponseEntity.ok("로그인 성공 id:" + id + "password"+ password );
     }*/
-
-
 }
