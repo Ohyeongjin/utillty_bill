@@ -10,38 +10,31 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Service("testService")
+@Service("authService")
 public class AuthServiceImpl implements AuthService {
     @Autowired AuthRepository authRepository;
 
     @Override
 
-    public Auth createUser(AuthDTO authDTO) {
-        Auth setAuth = Auth.builder()
-                .pk(authDTO.pk())
-                .id(authDTO.id())
-                .password(authDTO.password())
-                .name(authDTO.name())
-                .phoneNum(authDTO.phoneNum())
-                .build();
+    public Auth set(AuthDTO authDto) {
+        Auth existingAuth = authRepository.findById(authDto.lv()).orElseThrow(() -> new RuntimeException("Auth not found"));
 
-         return authRepository.save(setAuth);
+        if (authDto.authName() != null) {
+            existingAuth.setAuthName(authDto.authName());
+        }
+        if (authDto.roleName() != null) {
+            existingAuth.setRoleName(authDto.roleName());
+        }
+        if (authDto.activeYn() != null) {
+            existingAuth.setActiveYn(authDto.activeYn());
+        }
+        if (authDto.createdAt() != null) {
+            existingAuth.setCreatedAt(authDto.createdAt());
+        }
+            existingAuth.setUpdatedAt(authDto.updatedAt());
+        return authRepository.save(existingAuth);
     }
-
-    /*
-    * public Auth createUser(AuthDTO authDTO) {
-        Auth auth = new Auth();
-        auth.setPk(authDTO.pk());
-        auth.setId(authDTO.id());
-        auth.setPassword(authDTO.password());
-        auth.setName(authDTO.name());
-        auth.setBirthday(authDTO.birthday());
-        auth.setDate(authDTO.date());
-        auth.setPhoneNum(authDTO.phoneNum());
-        return authRepository.save(auth);
-    }
-    * */
-    @Override
+   /* @Override
     public Optional<Auth> getUserByPk(Long pk){
         return authRepository.findById(pk);
     }
@@ -60,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void deleteUser(Long pk) {
         authRepository.deleteById(pk);
-    }
+    }*/
 
 
 }

@@ -6,28 +6,24 @@ import org.example.dto.AuthDTO;
 import org.example.entity.Auth;
 import org.example.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class TestController {
+public class AuthController {
 
     @Autowired
     private AuthService authService;
 
-    // 회원가입
-    @PostMapping("/signup")
+    // 회원권한
+    @PostMapping("/auth")
     public ResponseEntity<Auth> registerAuth(@RequestBody AuthDTO authDTO) {
-        Auth newUser = authService.createUser(authDTO);
+        Auth newUser = authService.set(authDTO);
         return ResponseEntity.ok(newUser);
     }
-
+/*
     // user info
     @GetMapping("/users/{pk}")
     public ResponseEntity<AuthDTO> getUserByPk(@PathVariable Long pk) {
@@ -56,7 +52,7 @@ public class TestController {
     public ResponseEntity<Auth> deleteMember(@PathVariable Long pk) {
         authService.deleteUser(pk);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 
     //
 /*    @PostMapping("/login")

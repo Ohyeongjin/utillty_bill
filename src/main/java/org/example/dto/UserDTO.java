@@ -1,8 +1,10 @@
 package org.example.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
-public record UserDTO(Long pk , String id, String password, String name, String phoneNum, LocalDateTime date, List<String> roles){
+import org.example.entity.Auth;
+
+import java.time.LocalDateTime;
+
+
+public record UserDTO(Long userId,String id, String password, String name, String phone, Auth lv, Auth roleName, LocalDateTime createdAt, LocalDateTime updatedAt){
 }

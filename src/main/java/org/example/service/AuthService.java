@@ -10,18 +10,17 @@ import java.util.Optional;
 
 @Service
 public interface AuthService {
- Auth createUser(AuthDTO authDTO);
 
+   Auth set(AuthDTO authDto);
 
-
-    // user info
-    Optional<Auth> getUserByPk(Long pk);
+   /* // user info
+    Optional<Auth> getUserBuId(Long lv);
 
     // user update
-    Optional<Auth> updateUser(Long pk, Auth auth);
+    Optional<Auth> updateUser(Long lv, Auth auth);
 
     // user delete
-    void deleteUser(Long pk);
+    void deleteUser(Long lv);*/
 
 
 }
